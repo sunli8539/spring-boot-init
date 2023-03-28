@@ -1,0 +1,23 @@
+server:
+  port: 9999
+  servlet:
+    context-path: /
+
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://xxxx:3306/common?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&connectTimeout=30000&socketTimeout=60000&serverTimezone=Asia/Shanghai
+      username: root
+      password: xxx
+      initial-size: 5
+      max-active: 20
+      min-idle: 5
+      max-wait: 6000
+      filters: stat
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+
+
+
+
