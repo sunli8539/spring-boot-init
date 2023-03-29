@@ -1,9 +1,14 @@
+springfox:
+  documentation:
+    swagger-ui:
+      enabled: true
+
+mapper-locations: classpath:mapper/**/*.xml
+
 server:
   port: 9999
   servlet:
-    context-path: /
-
-mapper-locations: classpath:mapper/**/*.xml
+    context-path: /demo
 
 spring:
   datasource:
@@ -36,8 +41,3 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       auto-offset-reset: earliest
-      
-      
-      
-      
-   
