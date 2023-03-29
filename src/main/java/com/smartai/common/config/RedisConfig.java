@@ -118,7 +118,8 @@ public class RedisConfig {
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.registerModule(new DateSerializedConfig());
         config.setCodec(new JsonJacksonCodec(mapper));
-        // 方便把redis集群配置到nacos或者配置中心
+        // 读取application.yml配置方便把redis集群配置到nacos或者配置中心
+        // 如没有多套环境配置,可以直接在redisson-config.yml配置nodeAddresses
         List<String> adressList = Arrays.stream(nodes.split(","))
             .map(node -> "redis://" + node)
             .collect(Collectors.toList());
