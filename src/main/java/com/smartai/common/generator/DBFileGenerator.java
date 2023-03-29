@@ -28,9 +28,9 @@ public class DBFileGenerator {
         //数据源
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        hikariConfig.setJdbcUrl("jdbc:mysql://7.185.14.203:3306/common");
+        hikariConfig.setJdbcUrl("jdbc:mysql://xxx:3306/common");
         hikariConfig.setUsername("root");
-        hikariConfig.setPassword("Xbench@123");
+        hikariConfig.setPassword("xxx");
         //设置可以获取tables remarks信息
         hikariConfig.addDataSourceProperty("useInformationSchema", "true");
         hikariConfig.setMinimumIdle(2);
