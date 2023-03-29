@@ -3,21 +3,25 @@ server:
   servlet:
     context-path: /
 
+mapper-locations: classpath:mapper/**/*.xml
+
 spring:
   datasource:
     druid:
-      url: jdbc:mysql://xxxx:3306/common?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&connectTimeout=30000&socketTimeout=60000&serverTimezone=Asia/Shanghai
+      url: jdbc:mysql://7.185.14.203:3306/common?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&connectTimeout=30000&socketTimeout=60000&serverTimezone=Asia/Shanghai
       username: root
-      password: xxx
+      password: Xbench@123
       initial-size: 5
       max-active: 20
       min-idle: 5
       max-wait: 6000
       filters: stat
 
-mybatis:
-  mapper-locations: classpath:mapper/**/*.xml
-
-
-
-
+  redis:
+    cluster:
+      nodes: xxx,xxx
+      max-redirects: 3
+    password: xxx
+    connect-timeout: 10000
+    timeout: 10000
+    client-type: lettuce
