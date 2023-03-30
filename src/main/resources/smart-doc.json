@@ -1,5 +1,7 @@
 {
-  "serverUrl": "http://localhost:9999",
+  "serverUrl": "http://{{serverUrl}}:9999",
   "outPath": "src/main/resources/doc",
-  "coverOld": true
+  "coverOld": true,
+  "allInOne": true,
+  "packageFilters": "com.smartai.student.controller.*"
 }
