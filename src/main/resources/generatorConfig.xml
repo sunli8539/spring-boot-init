@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!-- 数据库驱动 -->
+    <context id="DBTables" targetRuntime="MyBatis3">
+        <commentGenerator type="com.smartai.common.generator.MyCommentGenerator"/>
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://xxx:3306/common"
+                        userId="root" password="xxx">
+            <!--连接数据库MySQL -->
+        </jdbcConnection>
+        <!-- 对一些需要处理的数据类型转换进行配置 -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="true"/>
+        </javaTypeResolver>
+        <!-- 生成模型的包名和位置 -->
+        <javaModelGenerator targetPackage="com.smartai.gen.entity" targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- 生成映射文件的包名和位置 -->
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject="src/main/resources">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!-- 生成DAO的包名和位置 -->
+        <javaClientGenerator targetPackage="com.smartai.gen.mapper"
+                             implementationPackage="mapper"
+                             targetProject="src/main/java"
+                             type="XMLMAPPER"/>
+
+        <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名 -->
+        <!-- tableName是要生成数据库映射文件的表名 domainObjectName要生成代码的实体类名 根据自己需求修改 -->
+        <table tableName="xbench_task_rel"
+               domainObjectName="TaskRel" schema="common"
+               enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false"></table>
+
+    </context>
+</generatorConfiguration>
