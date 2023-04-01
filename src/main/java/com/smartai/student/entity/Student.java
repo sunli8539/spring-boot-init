@@ -7,7 +7,7 @@ import com.smartai.common.entity.BaseEntity;
 import lombok.Data;
 
 @Data
-@TableName("xbench_task_rel")
+@TableName("t_student")
 public class Student extends BaseEntity {
 
     @TableField("st_name")
