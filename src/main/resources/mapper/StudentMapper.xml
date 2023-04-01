@@ -24,7 +24,7 @@
 
     <select id="getPageList" resultMap="BaseResultMap" parameterType="com.smartai.student.vo.StudentParamVO">
         SELECT
-        <include refid="Base_Column_List"/>,
+        <include refid="Base_Column_List"/>
         from t_student d
     </select>
 
