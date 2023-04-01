@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Configuration>
+    <!-- 文件主路径 -->
+    <property name="LOG_PATH" value="/demo/logs/"/>
+    <!-- 日志项目名称 -->
+    <property name="PROJECT_NAME" value="sbench"/>
+    <!-- 日志打印格式 -->
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %X{MDC} %logger{50} - %msg%n"/>
+    <!-- 编码 -->
+    <property name="LOG_CHARSET" value="utf-8"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 该ThresholdFilter表示只过滤DEBUG级别以上的日志 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <!-- 日志输出格式化 -->
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>${LOG_CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- file 标签用来记录当前记录的日志文件路径 -->
+        <File>${LOG_PATH}/${PROJECT_NAME}/root.log</File>
+        <!-- 日志输出格式化 -->
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>${LOG_CHARSET}</charset>
+        </encoder>
+        <!-- 滚动策略，按照大小和时间切分 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 日志输出的路径，定义了日志的切分方式：把每一天的日志归档到一个文件中 -->
+            <fileNamePattern>${LOG_PATH}/${PROJECT_NAME}/%d{yyyyMMdd}.%i-root.log</fileNamePattern>
+            <!-- 单个文件size上限 -->
+            <maxFileSize>50MB</maxFileSize>
+            <!-- 最大保留天数 -->
+            <maxHistory>7</maxHistory>
+            <!-- 所有日志文件size上限 -->
+            <totalSizeCap>1024MB</totalSizeCap>
+        </rollingPolicy>
+        <!-- 该ThresholdFilter表示只过滤DEBUG级别以上的日志 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+
+    <appender name="ERROR_STDOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- file 标签用来记录当前记录的日志文件路径 -->
+        <File>${LOG_PATH}/${PROJECT_NAME}/error.log</File>
+        <!-- 日志输出格式化 -->
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>${LOG_CHARSET}</charset>
+        </encoder>
+        <!-- 滚动策略，按照大小和时间切分 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 日志输出的路径，定义了日志的切分方式：把每一天的日志归档到一个文件中 -->
+            <fileNamePattern>${LOG_PATH}/${PROJECT_NAME}/%d{yyyyMMdd}.%i-error.log</fileNamePattern>
+            <!-- 单个文件size上限 -->
+            <maxFileSize>50MB</maxFileSize>
+            <!-- 最大保留天数 -->
+            <maxHistory>7</maxHistory>
+            <!-- 所有日志文件size上限 -->
+            <totalSizeCap>1024MB</totalSizeCap>
+        </rollingPolicy>
+        <!-- 该ThresholdFilter表示只过滤DEBUG级别以上的日志 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+
+    <!-- root 为必选标签 -->
+    <!-- level 用来设置打印级别，大小写无关:TRACE, DEBUG, INFO, WARN, ERROR, ALL, OFF。默认是 DEBUG -->
+    <!-- 可以包含多个appender-ref元素，表示这个appender将加入日志打印 -->
+    <root level="INFO">
+        <!-- pro,uat,sit建议关闭console日志 -->
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ERROR_STDOUT"/>
+    </root>
+</Configuration>
