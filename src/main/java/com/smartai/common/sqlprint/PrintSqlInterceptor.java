@@ -1,6 +1,5 @@
 package com.smartai.common.sqlprint;
 
-import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -31,11 +30,10 @@ import java.util.regex.Matcher;
  * method: 标记是拦截类的那个方法，method = "query", // 表示：拦截Executor的query方法
  * args: 标记拦截类方法的具体那个引用（尤其是重载时），query 有很多的重载方法，需要通过方法签名来指定具体拦截的是那个方法
  */
-@Intercepts(value = {
-    @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
-    @Signature(type = Executor.class, method = "query", args = {
-        MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class
-    })
+@Intercepts( {
+    @Signature(type = Executor.class, method = "query",
+        args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}),
+    @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class})
 })
 public class PrintSqlInterceptor implements Interceptor {
     private static final Logger log = LoggerFactory.getLogger(PrintSqlInterceptor.class);
@@ -54,9 +52,6 @@ public class PrintSqlInterceptor implements Interceptor {
         Object result = invocation.proceed();
 
         String statementId = mappedStatement.getId();
-        if (statementId.endsWith("_mpCount")){
-            return result;
-        }
         BoundSql boundSql = mappedStatement.getBoundSql(parameterObject);
         Configuration configuration = mappedStatement.getConfiguration();
         String sql = getSql(boundSql, parameterObject, configuration);
