@@ -1,5 +1,9 @@
 package com.smartai.common.util;
 
+import org.springframework.util.Assert;
+
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,5 +31,16 @@ public class CommonUtil {
             batchList.add(el);
         }
         return itemMap;
+    }
+
+    /**
+     * localDateTimeToTimeStamp
+     *
+     * @param dateTime dateTime
+     * @return timeStamp
+     */
+    public static long localDateTimeToTimeStamp(LocalDateTime dateTime) {
+        Assert.notNull(dateTime, "dateTime can't be null");
+        return dateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli();
     }
 }
