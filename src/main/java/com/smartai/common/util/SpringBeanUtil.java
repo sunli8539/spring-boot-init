@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Component
 @Slf4j
-public class SpringBeanUtils implements ApplicationContextAware, EnvironmentAware {
+public class SpringBeanUtil implements ApplicationContextAware, EnvironmentAware {
     private static ApplicationContext context;
 
     private static Environment env;
