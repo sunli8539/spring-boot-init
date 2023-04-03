@@ -1,7 +1,7 @@
 package com.smartai.optlog.service;
 
 import com.alibaba.fastjson.JSON;
-import com.smartai.common.util.SpringBeanUtils;
+import com.smartai.common.util.SpringBeanUtil;
 import com.smartai.optlog.entity.ResourceOperateRecord;
 import com.smartai.optlog.mapper.ResourceOperateRecordMapper;
 import com.smartai.optlog.vo.ResourceOperateRecordVO;
@@ -25,7 +25,7 @@ public class OptRecordLogService implements OptRecordLoader {
         try {
             ResourceOperateRecord record = new ResourceOperateRecord();
             BeanUtils.copyProperties(resourceOperateRecordVO, record);
-            ResourceOperateRecordMapper recordMapper = SpringBeanUtils.getBean(ResourceOperateRecordMapper.class);
+            ResourceOperateRecordMapper recordMapper = SpringBeanUtil.getBean(ResourceOperateRecordMapper.class);
             recordMapper.insert(record);
         } catch (Exception e) {
             log.error("OptRecordLogService.handlerMsg error :{}, param :{}", e,
