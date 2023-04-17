@@ -27,7 +27,7 @@ public class IpAspect {
     @Around("ip()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         HttpServletRequest request = HttpContextUtil.getHttpServletRequest();
-        String ip = HttpContextUtil.getIpAddr(request);
+        String ip = CommonUtil.getIpAddr(request);
         log.info(MessageFormat.format("当前IP为:[{0}], 当前IP地址解析出来的地址为:[{1}]", ip, CommonUtil.getCityInfo(ip)));
         return joinPoint.proceed();
     }
