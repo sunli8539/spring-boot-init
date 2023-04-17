@@ -192,6 +192,13 @@
         </dependency>
         <!--swagger  end-->
 
+        <!-- ip2region  -->
+        <dependency>
+            <groupId>org.lionsoul</groupId>
+            <artifactId>ip2region</artifactId>
+            <version>2.6.3</version>
+        </dependency>
+             
     </dependencies>
 
     <build>
