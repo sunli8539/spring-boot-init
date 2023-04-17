@@ -43,4 +43,21 @@ public class CommonUtil {
         Assert.notNull(dateTime, "dateTime can't be null");
         return dateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli();
     }
+    
+        /**
+     * 根据IP地址查询登录来源
+     *
+     * @param ip
+     * @return
+     */
+    public static String getCityInfo(String ip) {
+        try {
+            Searcher searcher = Searcher.newWithFileOnly("src/main/resources/ip2region/ip2region.xdb");
+            return searcher.searchByStr(ip);
+        } catch (Exception e) {
+            log.error("getCityInfo error: {} ", e);
+        }
+        return "";
+    }
+
 }
