@@ -25,6 +25,8 @@ public class ExcelUtil2 {
 
     private static final String SPLIT = "#";
 
+    private static final String TRIM_REGEX = "[　 ]+$";
+
     /**
      * parseExcel2List
      *
@@ -79,6 +81,12 @@ public class ExcelUtil2 {
         return value;
     }
 
+    /**
+     * parseData2Map
+     *
+     * @param dataList
+     * @return
+     */
     public static LinkedHashMap<String, Object> parseData2Map(List<LinkedHashMap<String, Object>> dataList) {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         LinkedHashMap<Integer, Object> spaceNumParentMap = new LinkedHashMap<>();
@@ -88,65 +96,68 @@ public class ExcelUtil2 {
             }
             LinkedHashMap<String, Object> before = dataList.get(i - 1);
             LinkedHashMap<String, Object> self = dataList.get(i);
-
-            String beforeName = before.get(NAME_KEY).toString();
-            String selfName = self.get(NAME_KEY).toString();
-
-            int beforeSpaceNum = getSpaceNum(beforeName);
-            int selfSpaceNum = getSpaceNum(selfName);
-
-            // 上一条数据空格少, 则为上一条的子集
-            if (beforeSpaceNum < selfSpaceNum) {
-                LinkedHashMap<String, Object> children;
-                if (Objects.isNull(before.get(CHILDREN))) {
-                    children = new LinkedHashMap<>();
-                } else {
-                    children = (LinkedHashMap<String, Object>) before.get(CHILDREN);
-                }
-                children.put(selfName.trim(), self);
-                before.put(CHILDREN, children);
-                spaceNumParentMap.put(selfSpaceNum, before);
-            }
-            // 和上一条数据空格一样多, 平级
-            if (beforeSpaceNum == selfSpaceNum) {
-                // 上一条数据有父集
-                if (spaceNumParentMap.containsKey(beforeSpaceNum)) {
-                    LinkedHashMap<String, Object> parent = (LinkedHashMap<String, Object>) spaceNumParentMap.get(
-                        selfSpaceNum);
-                    LinkedHashMap<String, Object> children = (LinkedHashMap<String, Object>) parent.get(CHILDREN);
-                    // 解决同级名称重复问题
-                    children.put(getChildrenKey(beforeName.trim(), selfName.trim()), self);
-                    parent.put(CHILDREN, children);
-                    spaceNumParentMap.put(selfSpaceNum, parent);
-                } else {
-                    result.put(selfName.trim(), self);
-                }
-            }
-            // 上一条空格多, 则需重新定位当前行的父集
-            if (beforeSpaceNum > selfSpaceNum) {
-                if (spaceNumParentMap.containsKey(selfSpaceNum)) {
-                    LinkedHashMap<String, Object> parent = (LinkedHashMap<String, Object>) spaceNumParentMap.get(
-                        selfSpaceNum);
-                    LinkedHashMap<String, Object> children = (LinkedHashMap<String, Object>) parent.get(CHILDREN);
-                    // 解决同级名称重复问题
-                    children.put(getChildrenKey2(children, selfName.trim()), self);
-                    parent.put(CHILDREN, children);
-                    spaceNumParentMap.put(selfSpaceNum, parent);
-                } else {
-                    result.put(selfName.trim(), self);
-                }
-            }
+            dealData(before, self, result, spaceNumParentMap);
             if (i == 1) {
-                result.put(beforeName.trim(), before);
+                result.put(before.get(NAME_KEY).toString().trim(), before);
             }
         }
         return result;
+    }
+
+    private static void dealData(LinkedHashMap<String, Object> before, LinkedHashMap<String, Object> self,
+        LinkedHashMap<String, Object> result, LinkedHashMap<Integer, Object> spaceNumParentMap) {
+        String beforeName = before.get(NAME_KEY).toString();
+        String selfName = self.get(NAME_KEY).toString();
+        int beforeSpaceNum = getSpaceNum(beforeName);
+        int selfSpaceNum = getSpaceNum(selfName);
+        // 上一条数据空格少, 则为上一条的子集
+        if (beforeSpaceNum < selfSpaceNum) {
+            LinkedHashMap<String, Object> children;
+            if (Objects.isNull(before.get(CHILDREN))) {
+                children = new LinkedHashMap<>();
+            } else {
+                children = (LinkedHashMap<String, Object>) before.get(CHILDREN);
+            }
+            children.put(selfName.trim(), self);
+            before.put(CHILDREN, children);
+            spaceNumParentMap.put(selfSpaceNum, before);
+        }
+        // 和上一条数据空格一样多, 平级
+        if (beforeSpaceNum == selfSpaceNum) {
+            // 上一条数据有父集
+            if (spaceNumParentMap.containsKey(beforeSpaceNum)) {
+                LinkedHashMap<String, Object> parent = (LinkedHashMap<String, Object>) spaceNumParentMap.get(
+                    selfSpaceNum);
+                LinkedHashMap<String, Object> children = (LinkedHashMap<String, Object>) parent.get(CHILDREN);
+                // 解决同级名称重复问题
+                children.put(getChildrenKey(beforeName.trim(), selfName.trim()), self);
+                parent.put(CHILDREN, children);
+                spaceNumParentMap.put(selfSpaceNum, parent);
+            } else {
+                result.put(selfName.trim(), self);
+            }
+        }
+        // 上一条空格多, 则需重新定位当前行的父集
+        if (beforeSpaceNum > selfSpaceNum) {
+            if (spaceNumParentMap.containsKey(selfSpaceNum)) {
+                LinkedHashMap<String, Object> parent = (LinkedHashMap<String, Object>) spaceNumParentMap.get(
+                    selfSpaceNum);
+                LinkedHashMap<String, Object> children = (LinkedHashMap<String, Object>) parent.get(CHILDREN);
+                // 解决同级名称重复问题
+                children.put(getChildrenKey2(children, selfName.trim()), self);
+                parent.put(CHILDREN, children);
+                spaceNumParentMap.put(selfSpaceNum, parent);
+            } else {
+                result.put(selfName.trim(), self);
+            }
+        }
     }
 
     private static int getSpaceNum(String str) {
         if (StringUtils.isBlank(str)) {
             return 0;
         }
+        str = trimRight(str);
         int num = 0;
         for (int i = 0; i < str.length(); i++) {
             if (str.charAt(i) == ' ') {
@@ -195,5 +206,13 @@ public class ExcelUtil2 {
         }
         int tmp = Integer.parseInt(input);
         return tmp + 1;
+    }
+
+    public static String trimRight(String str) {
+        if (str == null || str.equals("")) {
+            return str;
+        } else {
+            return str.replaceAll(TRIM_REGEX, "");
+        }
     }
 }
