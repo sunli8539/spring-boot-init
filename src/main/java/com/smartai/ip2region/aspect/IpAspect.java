@@ -1,7 +1,7 @@
 package com.smartai.ip2region.aspect;
 
 import com.smartai.common.util.CommonUtil;
-import com.smartai.common.util.HttpContextUtil;
+import com.smartai.common.util.HttpUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,8 +26,8 @@ public class IpAspect {
 
     @Around("ip()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-        HttpServletRequest request = HttpContextUtil.getHttpServletRequest();
-        String ip = CommonUtil.getIpAddr(request);
+        HttpServletRequest request = HttpUtil.getHttpServletRequest();
+        String ip = HttpUtil.getIpAddress(request);
         log.info(MessageFormat.format("当前IP为:[{0}], 当前IP地址解析出来的地址为:[{1}]", ip, CommonUtil.getCityInfo(ip)));
         return joinPoint.proceed();
     }
