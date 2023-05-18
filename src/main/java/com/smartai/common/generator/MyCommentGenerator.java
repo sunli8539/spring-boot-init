@@ -213,7 +213,7 @@ public class MyCommentGenerator extends DefaultCommentGenerator {
         sb.append(" ");
         sb.append(currentDateStr);
         topLevelClass.addJavaDocLine(" */");
-        topLevelClass.addAnnotation("@Table(name = \"" + introspectedTable.getFullyQualifiedTable() + "\")");
+        topLevelClass.addAnnotation("@TableName(\"" + introspectedTable.getFullyQualifiedTable() + "\")");
         topLevelClass.addAnnotation(
             "@Alias(\"" + toLowerCaseFirstOne(introspectedTable.getTableConfiguration().getDomainObjectName()) + "\")");
     }
