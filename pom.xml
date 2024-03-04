@@ -206,18 +206,18 @@
             <version>0.2.0</version>
         </dependency>
 
-        <!-- json-start 
+
          <!-- json-diff -->
-        <dependency>
+<!--         <dependency>
             <groupId>com.ke.diff</groupId>
             <artifactId>json-diff</artifactId>
             <scope>system</scope>
             <version>1.0.0</version>
             <systemPath>${project.basedir}/lib/json-diff-1.0.0.jar</systemPath>
         </dependency>
-
+ -->
         <!-- json-flattener -->
-        <dependency>
+<!--         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.14.2</version>
@@ -233,9 +233,7 @@
             <scope>system</scope>
             <version>0.16.7-SNAPSHOT</version>
             <systemPath>${project.basedir}/lib/json-flattener-0.16.7-SNAPSHOT.jar</systemPath>
-        </dependency>
-             
-        end  -->
+        </dependency> -->
              
     </dependencies>
 
