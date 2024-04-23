@@ -22,13 +22,6 @@ import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * @author sWX1160681
- * @version [版本号，2024/3/5]
- * @description
- * @see [相关类/方法]
- * @since 2024/3/5 - 14:28
- **/
 @Slf4j
 public class WordUtil {
 
