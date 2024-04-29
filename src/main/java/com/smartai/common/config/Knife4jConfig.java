@@ -33,7 +33,7 @@ public class Knife4jConfig {
 
     @Bean
     public Docket createRestApi() {
-        return new Docket(DocumentationType.SWAGGER_2).enable(knife4jShow).apiInfo(apiInfo()).select()
+        return new Docket(DocumentationType.OAS_30).enable(knife4jShow).apiInfo(apiInfo()).select()
             //.apis(RequestHandlerSelectors.basePackage("com.huawei.sbench"))
             //.apis(RequestHandlerSelectors.any())
             .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)).paths(PathSelectors.any()).build();
